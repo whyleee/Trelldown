@@ -12,9 +12,18 @@
 					$('.js-export-card-links').on('click', function(){
 						var links = [];
 						var $list = $link.closest('.list');
-						$list.find('.list-card-title').each(function(){
-							$cardTitle = $(this);
-							links.push('<li><a href="{url}" style="color: rgb(17, 85, 204)">{text}</a></li>'.replace('{url}', $cardTitle.attr('href')).replace('{text}', $cardTitle.text().substring($cardTitle.text().indexOf(' '))));
+						$list.find('.list-card').each(function(){
+							var $card = $(this);
+							var $cardTitle = $card.find('.list-card-title');
+							var text = '';
+							if ($card.find('.card-label.red-label').length){
+								text += '[Bug]';
+							}
+							if ($card.find('.card-label.purple-label').length){
+								text += '[CR]';
+							}
+							text += ' ' + $cardTitle.text().substring($cardTitle.text().indexOf(' '));
+							links.push('<li><a href="{url}" style="color: rgb(17, 85, 204)">{text}</a></li>'.replace('{url}', $cardTitle.attr('href')).replace('{text}', text));
 						});
 						$.modal(
 							('<div id="basic-modal-content" style="background: #e3e3e3; color: rgb(94, 94, 94); padding: 5px">' +
