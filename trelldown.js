@@ -1,5 +1,46 @@
 (function bpExt($){
 	$(function(){
+
+		// list card links export
+		$('.js-open-list-menu').on('click', function(){
+			$link = $(this);
+			function addExportButton() {
+				$cardActions = $('.pop-over .content .pop-over-list:eq(1)');
+				if (!$cardActions.find('.js-export-card-links').length){
+					$cardActions.append('<li><a href="#" class="js-export-card-links">Export All Card Links in This List</a></li>');
+
+					$('.js-export-card-links').on('click', function(){
+						var links = [];
+						var $list = $link.closest('.list');
+						$list.find('.list-card-title').each(function(){
+							$cardTitle = $(this);
+							links.push('<li><a href="{url}" style="color: rgb(17, 85, 204)">{text}</a></li>'.replace('{url}', $cardTitle.attr('href')).replace('{text}', $cardTitle.text().substring($cardTitle.text().indexOf(' '))));
+						});
+						$.modal(
+							('<div id="basic-modal-content" style="background: #e3e3e3; color: rgb(94, 94, 94); padding: 5px">' +
+								'<a class="simplemodal-close" title="Close" style="position: absolute; top: 5px; right: 8px; color: black">x</a>' +
+								'<h1>{title}</h1><hr/>' +
+								'<p style="width: 800px">{content}</p>' +
+								'<p style="margin-top: 30px">Copy-paste the list to export the data</p>' +
+							'</div>')
+							.replace('{title}', $list.find('.list-title h2').text() + ' cards')
+							.replace('{content}', '<ul style="list-style: disc; padding-left: 17px">' + links.join('') + '</ul>'), {
+								containerCss: {
+									background: '#e3e3e3',
+									paddingRight: '26px',
+									paddingTop: '20px'
+								}
+							}
+						);
+					});
+				} else {
+					setTimeout(addExportButton, 0);
+				}
+			}
+			setTimeout(addExportButton, 0);
+		});
+
+		// burndown
 		var lastDoc = null;
 		
 		$('.board-header-btns.right').prepend(
