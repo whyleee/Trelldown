@@ -1,6 +1,6 @@
 {
 	"name": "Trelldown",
-	"version": "1.0",
+	"version": "0.1",
 	"manifest_version": 2,
 	"description": "Burndown chart for Trello",
 	"content_security_policy": "script-src 'self' https://www.google-analytics.com; object-src 'self'",
