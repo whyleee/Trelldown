@@ -53,29 +53,31 @@
 		function updateDb(){
 			var _lists = ModelCache._cache.List;
 			var _cards = ModelCache._cache.Card;
-			var totalLeft = 0;
+			var totalLeftText = $('.list-title:contains("Todo"), .list-title:contains("To Do")').find('.list-total .points').text();
+			var totalLeft = totalLeftText ? parseInt(totalLeftText) : 0;
 
-			//for each list
-			for(var listID in _lists){
-				if(!_lists.hasOwnProperty(listID)){ continue; } //skip if not a list
-				if(_lists[listID].attributes.closed){ continue; } //skip if the list is closed
-				if (_lists[listID].attributes.name != 'Todo' && _lists[listID].attributes.name != 'To Do') { continue;} // We need only 'Todo' list
 
-				//loop through each card
-				for(var cardID in _cards){
-					if(!_cards.hasOwnProperty(cardID)){ continue; } //skip if not a card
-					if(_cards[cardID].attributes.closed){ continue; } //skip if the card is closed
-					if(_cards[cardID].attributes.idList != listID){ continue; } //skip if the card doesn't belong to this list
-					if(_cards[cardID].view.el.className.indexOf('hide') >= 0){ continue; } //skip if hidden
+			// //for each list
+			// for(var listID in _lists){
+			// 	if(!_lists.hasOwnProperty(listID)){ continue; } //skip if not a list
+			// 	if(_lists[listID].attributes.closed){ continue; } //skip if the list is closed
+			// 	if (_lists[listID].attributes.name != 'Todo' && _lists[listID].attributes.name != 'To Do') { continue;} // We need only 'Todo' list
 
-					//determine the number of points on the card
-					var cardPoints = Number((_cards[cardID].attributes.name.match(/\([0-9.]+(?=\))/gi) || ['(0'])[0].split('(')[1]);
+			// 	//loop through each card
+			// 	for(var cardID in _cards){
+			// 		if(!_cards.hasOwnProperty(cardID)){ continue; } //skip if not a card
+			// 		if(_cards[cardID].attributes.closed){ continue; } //skip if the card is closed
+			// 		if(_cards[cardID].attributes.idList != listID){ continue; } //skip if the card doesn't belong to this list
+			// 		if(_cards[cardID].view.el.className.indexOf('hide') >= 0){ continue; } //skip if hidden
 
-					if(cardPoints){
-						totalLeft += cardPoints;
-					}
-				}
-			}
+			// 		//determine the number of points on the card
+			// 		var cardPoints = Number((_cards[cardID].attributes.name.match(/\([0-9.]+(?=\))/gi) || ['(0'])[0].split('(')[1]);
+
+			// 		if(cardPoints){
+			// 			totalLeft += cardPoints;
+			// 		}
+			// 	}
+			// }
 
 			var today = new Date().toDateString();
 			var todaysInDoc = lastDoc.dates.filter(function(e){return new Date(e).toDateString() == today});
